@@ -1,5 +1,5 @@
 require 'test/unit'
-require 'grid'
+require 'sudoku'
 
 class GridTester < Test::Unit::TestCase
 
