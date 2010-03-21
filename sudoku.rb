@@ -89,6 +89,13 @@ module Sudoku
       (row * @dimension) + col
     end
 
+    def coords_for(index)
+      row = index / @dimension
+      col = index % @dimension
+
+      [row, col]
+    end
+
     # Makes a copy of the grid, solves it, and then peeks
     # at the answer for the specified cell
     #
@@ -157,6 +164,23 @@ module Sudoku
       end
     end
 
+    def to_a
+      output = (0...@dimension).map { [nil] * @dimension }
+
+      (0...@dimension**2).each do |index|
+        if Fixnum === @cells[index] 
+          row, col = coords_for(index)
+          output[row][col] = @cells[index] 
+        end
+      end
+
+      return output
+    end
+
+    def to_json
+      to_a.to_json
+    end
+
     # Prints cells in pretty format. Setting show_possible_values will print
     # something less pretty, but it can be useful for debugging.
     def to_s(show_possible_values = false)
@@ -194,6 +218,15 @@ module Sudoku
       end
       
       return true
+    end
+
+
+    def solveable?
+      grid = dup
+      grid.solve
+      true
+    rescue Unsolvable
+      false
     end
     
     # Main solve method. Will do depth-first search as required to figure
