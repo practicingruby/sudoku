@@ -5,7 +5,7 @@ class GridTester < Test::Unit::TestCase
 
   # Test loading of grid and getting cells.
   def test_grid_valid
-    grid = Grid::load("grids/easy_grid.txt")  
+    grid = Sudoku::Grid.load("grids/easy_grid.txt")  
     assert_equal 9, grid[0]
     assert_equal 8, grid[1]
     assert_equal 3, grid[79]
@@ -25,7 +25,7 @@ class GridTester < Test::Unit::TestCase
   # grid gets solved as a side-effect of loading it.
   def test_solve_easy_grid
     puts "running easy grid"
-    grid = Grid::load("grids/easy_grid.txt")
+    grid = Sudoku::Grid.load("grids/easy_grid.txt")
 
     # Note: don't even need to run solve.
     assert_equal true, grid.solved?
@@ -36,11 +36,11 @@ class GridTester < Test::Unit::TestCase
 
   # Test getting grid into unsolvable state; the cell sets should fail.
   def test_grid_unsolvable
-    grid = Grid::load("grids/medium_grid.txt")
+    grid = Sudoku::Grid.load("grids/medium_grid.txt")
     assert_equal false, grid.solved?
     assert_equal [2, 8, 9], grid[grid.index_for(1, 3)]
 
-    assert_raise Unsolvable do
+    assert_raise Sudoku::Unsolvable do
       grid[grid.index_for(7, 3)] = 8
       grid[grid.index_for(8, 3)] = 9
       grid[grid.index_for(0, 4)] = 2
@@ -50,7 +50,7 @@ class GridTester < Test::Unit::TestCase
   # Solve grid that involves some guessing.
   def test_solve_medium_grid
     puts "running medium grid"
-    grid = Grid::load("grids/medium_grid.txt")
+    grid = Sudoku::Grid.load("grids/medium_grid.txt")
   
     grid.solve
     puts "solved grid:"
@@ -60,7 +60,7 @@ class GridTester < Test::Unit::TestCase
   # Solve grid that involves more guessing.
   def test_solve_hard_grid
     puts "running hard grid"
-    grid = Grid::load("grids/hard_grid.txt")
+    grid = Sudoku::Grid.load("grids/hard_grid.txt")
     grid.solve
     puts "solved grid:"
     puts grid.to_s
@@ -69,7 +69,7 @@ class GridTester < Test::Unit::TestCase
   # Solve grid that involves a whole bunch of guessing.
   def test_solve_super_hard_grid
     puts "running super hard grid"
-    grid = Grid::load("grids/super_hard_grid.txt")
+    grid = Sudoku::Grid.load("grids/super_hard_grid.txt")
     grid.solve
     puts "solved grid:"
     puts grid.to_s
