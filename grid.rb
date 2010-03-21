@@ -89,6 +89,9 @@ module Sudoku
       (row * @dimension) + col
     end
 
+    # Makes a copy of the grid, solves it, and then peeks
+    # at the answer for the specified cell
+    #
     def peek_at_answer_for(row,col)
       grid = dup
       grid.solve
